@@ -5,8 +5,17 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-# Группировка постов по темам
 class Category(models.Model):
+    """
+    Модель категории для группировки постов по темам.
+    Attributes:
+        title: Название категории
+        description: Описание категории
+        slug: Уникальный идентификатор для URL
+        is_published: Флаг публикации категории
+        created_at: Дата создания
+    """
+
     title = models.CharField('Заголовок', max_length=256)
     description = models.TextField('Описание')
     slug = models.SlugField(
@@ -32,8 +41,15 @@ class Category(models.Model):
         return self.title
 
 
-# Указание места, где был создан пост
 class Location(models.Model):
+    """
+    Модель местоположения для указания места создания поста.
+    Attributes:
+        name: Название места
+        is_published: Флаг публикации местоположения
+        created_at: Дата создания
+    """
+
     name = models.CharField('Название места', max_length=256)
     is_published = models.BooleanField(
         'Опубликовано',
@@ -50,8 +66,21 @@ class Location(models.Model):
         return self.name
 
 
-# Основная единица контента - статья/запись в блоге
 class Post(models.Model):
+    """
+    Модель публикации (поста) в блоге.
+    Attributes:
+        title: Заголовок поста
+        text: Текст поста
+        pub_date: Дата и время публикации
+        author: Автор поста
+        location: Местоположение
+        category: Категория поста
+        image: Изображение к посту
+        is_published: Флаг публикации поста
+        created_at: Дата создания
+    """
+    
     title = models.CharField('Заголовок', max_length=256)
     text = models.TextField('Текст')
     pub_date = models.DateTimeField(
@@ -104,8 +133,16 @@ class Post(models.Model):
         return self.comments.count()
 
 
-# Позволяет пользователям комментировать посты
 class Comment(models.Model):
+    """
+    Модель комментария к посту.
+    Attributes:
+        text: Текст комментария
+        post: Пост, к которому относится комментарий
+        author: Автор комментария
+        created_at: Дата создания комментария
+    """
+  
     text = models.TextField('Текст комментария')
     post = models.ForeignKey(
         Post,

@@ -6,8 +6,18 @@ from .models import Post, Comment, Category, Location
 User = get_user_model()
 
 
-# Форма для добавления или изменения публикации
 class PostForm(forms.ModelForm):
+    """
+    Форма для создания и редактирования публикаций.
+    Fields:
+        title: Заголовок поста
+        text: Текст поста
+        pub_date: Дата и время публикации
+        image: Изображение к посту
+        category: Категория поста
+        location: Местоположение
+    """
+
     category = forms.ModelChoiceField(
         queryset=Category.objects.filter(is_published=True),
         label='Категория',
@@ -34,8 +44,13 @@ class PostForm(forms.ModelForm):
         }
 
 
-# Форма для создания и изменения комментариев к постам
 class CommentForm(forms.ModelForm):
+    """
+    Форма для добавления и редактирования комментариев.
+    Fields:
+        text: Текст комментария
+    """
+
     class Meta:
         model = Comment
         fields = ('text',)
@@ -44,16 +59,33 @@ class CommentForm(forms.ModelForm):
         }
 
 
-# Форма для создания нового аккаунта пользователя
 class RegistrationForm(UserCreationForm):
+    """
+    Форма регистрации нового пользователя.
+    Fields:
+        username: Имя пользователя
+        email: Email адрес
+        first_name: Имя
+        last_name: Фамилия
+        password1: Пароль
+        password2: Подтверждение пароля
+    """
     class Meta:
         model = User
         fields = ('username', 'email', 'first_name', 'last_name',
                   'password1', 'password2')
 
 
-# Форма для изменения данных пользователя
 class ProfileForm(forms.ModelForm):
+    """
+    Форма редактирования профиля пользователя.
+    Fields:
+        username: Имя пользователя
+        email: Email адрес
+        first_name: Имя
+        last_name: Фамилия
+    """
+
     class Meta:
         model = User
         fields = ('username', 'email', 'first_name', 'last_name')
